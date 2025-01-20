@@ -1,0 +1,25 @@
+main{
+    display: flex;
+    height: 100vh;
+}
+
+#list{
+    background-color: aqua;
+    flex: 0;    
+}
+
+#form{
+    background-color: blueviolet;
+    flex: 0;
+}
+
+.task{
+    margin: 10px 20px 1px solid;
+    padding: 10px;
+    display: flex;
+}
+/*trying the space of both sections*/
+
+
+
+
