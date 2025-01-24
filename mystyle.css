@@ -1,25 +1,144 @@
-main{
+/* General Reset */
+body, ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body {
+    font-family: 'Arial', sans-serif; /* Clean and readable font */
+    line-height: 1.6;
+    background-color: #f4f4f9; /* Light background for contrast */
+    color: #333;
+}
+
+/* Header Styling */
+.header {
+    background: linear-gradient(90deg, #4caf50, #2e7d32); /* Smooth gradient */
+    color: white;
+    padding: 15px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+.header .container {
     display: flex;
-    height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-#list{
-    background-color: aqua;
-    flex: 0;    
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
 }
 
-#form{
-    background-color: blueviolet;
-    flex: 0;
+.logo:hover {
+    color: #ffeb3b; /* Highlight on hover */
 }
 
-.task{
-    margin: 10px 20px 1px solid;
-    padding: 10px;
+.nav {
     display: flex;
 }
-/*trying the space of both sections*/
+
+.nav-list {
+    display: flex;
+    gap: 25px; /* Space between links */
+}
+
+.nav-link {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2); 
+    color: #ffeb3b; 
+    transform: scale(1.1); 
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .nav {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-link {
+        text-align: right;
+        width: 100%;
+    }
+}
+
+/* Label Styling */
+label {
+    font-size: 1rem; 
+    font-weight: bold; 
+    color: #333; 
+    display: block;
+    margin-bottom: 8px; 
+    text-transform: capitalize; 
+}
+
+/* Optional Enhancement for Required Fields */
+label::after {
+    content: " *"; 
+    color: red; 
+    font-weight: normal;
+}
 
 
+.form-label {
+    margin-bottom: 10px; 
+}
 
+.form-control, .form-select {
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    padding: 10px; 
+    font-size: 1rem; 
+    width: 100%; 
+    transition: border-color 0.3s ease; 
+}
+
+/* Input Focus */
+.form-control:focus, .form-select:focus {
+    border-color: #4caf50; 
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); 
+    outline: none; 
+}
+
+
+.mt-3 {
+    margin-top: 1rem; 
+}
+
+/* Label Styling */
+label {
+    font-size: 1rem; 
+    font-weight: bold;
+    color: #333; 
+    display: block; 
+    margin-bottom: 8px;
+    text-transform: capitalize; 
+}
 
