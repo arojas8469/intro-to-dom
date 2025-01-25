@@ -50,108 +50,118 @@ Dont
 repeat
 yourself*/
 
-function saveTask()
-{
-    console.log('saving task');
-    //get values
-    const titles = $("txtTitle").val();
-    const description = $("#txtDescription").val();
-    const color = $("#tstselColor").val();
-    const date = $("#selDate").val();
-    const status = $("selStatus").val();
-    const budget = $("#numBudget").val();
-    console.log(title,description,color,date,status,number);
-    //build an object
-    let taskToSave = new Task (title,description,color,date,status,budget)
-    console.log(taskToSave);
-
-    displayTask(taskToSave);
-}
-
-function loadTask(){
-    $.ajx({
-        type: "GET",
-        url: "http://fsdiapi.azurewebsites.net/api/tasks/",
-        success: function(response){
-            console.log(response);
-            let data = JSON.parse(response);
-            console.log(data);
-            // console.log only those elements that were created by you on the server
-        },
-        error: function (error){
-            console.log(error);
-        }
-    });
-}
-    //save to server     ///AJAX Asynchronos Java Script XML
-
-    $.ajax({
-        type: "POST",
-        url: "http://fsdiapi.azurewebsites.net/api/tasks/",
-        data: JSON.stringify(taskToSAve),
-        contentType: "application/json",
-        success: function(response){
-            console.log(response);
-        },
-        error: function(error){
-            console.log(error);
-        }
-    })
-    //display the data recieved from server
-
-    function displayTask(task){
-        let syntax = `<div class='task'>
-        <div class='info'>
-            <h5>${task.title}</h5>
-            <p>${task.description}</p>
-        <div>
-
-        <label class='status'>${task.status}</labels>
-        <div class='date-budget'>
-        <label>${task.datw}</label>
-        <label>${task.buidget}</label>
-        </div>
-        </div>
-        `;
-        $(".pending-tasks").append(syntax);
+// Define a Task constructor
+function Task(title, description, color, date, status, budget) {
+    this.title = title;
+    this.description = description;
+    this.color = color;
+    this.date = date;
+    this.status = status;
+    this.budget = budget;
+  }
+  
+  function saveTask() {
+    console.log('Saving task...');
     
-    }
-
-function testFunction() 
-{
+    // Get values from input fields
+    const title = $("#txtTitle").val();
+    const description = $("#txtDescription").val();
+    const color = $("#selColor").val();
+    const date = $("#selDate").val();
+    const status = $("#selStatus").val();
+    const budget = $("#numBudget").val();
+    
+    console.log(title, description, color, date, status, budget);
+    
+    // Build a task object
+    let taskToSave = new Task(title, description, color, date, status, budget);
+    console.log(taskToSave);
+  
+    // Save the task to the server
     $.ajax({
-        type: "delete",
-        url:"http://fsdiapi.azurewebsites.net",
-        success: function(response)
-        {
-            console.log(response); 
-            let data = JSON.parse(response);
-            console.log(data);
-            // console.log only those elements that were created by you the server. 
-        },
-        error: function(error)
-        {
-            console.log(error)
-        }
+      type: "POST",
+      url: "http://fsdiapi.azurewebsites.net/api/tasks/",
+      data: JSON.stringify(taskToSave),
+      contentType: "application/json",
+      success: function(response) {
+        console.log("Task saved successfully:", response);
+        displayTask(taskToSave);
+      },
+      error: function(error) {
+        console.log("Error saving task:", error);
+      }
     });
-}
-
-function init(){
-    console.log('init');
-    //load data
+  }
+  
+  function loadTask() {
+    $.ajax({
+      type: "GET",
+      url: "http://fsdiapi.azurewebsites.net/api/tasks",
+      success: function(response) {
+        console.log("Tasks loaded:", response);
+        let data = JSON.parse(response);
+  
+        // Filter tasks created by the user
+        let userTasks = data.filter(task => task.userId === 1); // Change userId to match your needs
+        console.log("User tasks:", userTasks);
+  
+        // Display each task
+        userTasks.forEach(task => displayTask(task));
+      },
+      error: function(error) {
+        console.log("Error loading tasks:", error);
+      }
+    });
+  }
+  
+  function displayTask(task) {
+    let syntax = `
+      <div class="task" style="border: 1px solid ${task.color}; margin: 10px; padding: 10px;">
+        <div class="info">
+          <h5>${task.title}</h5>
+          <p>${task.description}</p>
+        </div>
+        <label class="status">${task.status}</label>
+        <div class="date-budget">
+          <label>${task.date}</label>
+          <label>${task.budget}</label>
+        </div>
+      </div>
+    `;
+    $(".pending-tasks").append(syntax);
+  }
+  
+  function deleteAllTasks() {
+    $.ajax({
+      type: "DELETE",
+      url: "http://fsdiapi.azurewebsites.net/api/tasks/clear",
+      success: function(response) {
+        console.log("All tasks deleted:", response);
+        $(".pending-tasks").empty(); // Clear the UI
+      },
+      error: function(error) {
+        console.log("Error deleting tasks:", error);
+      }
+    });
+  }
+  
+  function init() {
+    console.log('Initializing...');
+    
+    // Load existing tasks
     loadTask();
-    //hook events
-    $("#btnSave").click(saveTask);
-}
-
-window.onload = init;
-//variable scope
-
-
-///XML Extensible Markup Language
-
-//JSON JavaScript Object Notation
-
-
-
-
+    
+    // Hook up events
+    $("#btnSave").click(function(e) {
+      e.preventDefault(); // Prevent default form submission
+      saveTask();
+    });
+    
+    $("#btnDeleteAll").click(function() {
+      deleteAllTasks();
+    });
+  }
+  
+  // Initialize when the window loads
+  $(document).ready(init);
+  
